@@ -1,0 +1,13 @@
+.dialogsList {
+    background-color: plum;
+}
+
+.dialogItem {
+    margin: 5px;
+    background-color: aqua;
+}
+
+.dialogItem a {
+    text-decoration: none;
+    color: black;
+}

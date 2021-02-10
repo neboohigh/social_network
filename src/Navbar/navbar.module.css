@@ -1,0 +1,14 @@
+.navbar {
+    grid-area: n;
+    background-color: grey;
+    height: 200px;
+}
+
+
+.navItem a.active {
+    color: yellow;
+}
+.navItem a {
+    color: black;
+    text-decoration: none;
+}
