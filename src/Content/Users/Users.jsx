@@ -1,56 +1,44 @@
-import React from "react";
-import * as axios from "axios";
+import React from 'react'
+import s from "./users.module.css";
+import {NavLink} from "react-router-dom";
+import Loading from "../../common/Loader";
 
-class Users extends React.Component {
-    getUsers = () => {
-        if (this.props.users.length === 0) {
-            axios.get('http://localhost:8080/users').then(response => {
-                this.props.setUsers(response.data.users)
-            })
-        }
+
+let Users = (props) => {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pages = []
+    for (let i = 1; i < pagesCount; i++) {
+        pages.push(i)
     }
-
-
-    render() {
-        return (
+    return (
+        <div>
+            {props.isFetching ? <Loading/> : null}
             <div>
-                <button onClick={() => this.getUsers() } >get users</button>
-                {this.props.users.map((user) => (
+                {pages.map(p => {
+                    return (<span onClick={() => props.setSelectedPage(p)}
+                                  className={props.selectedPage === p ? s.selectedPage : s.pageNumber}>{p}</span>)}
+                )}
+            </div>
+            <div>
+                {props.users.map((user) => (
                     <div key={user.id}>
-                        {user.lastName + ' ' + user.firstName + ' ' + user.location.country + ' ' + user.location.city}
                         <div>
-                            <button onClick={(userId) => this.props.changeFollowStatus(user.id)}>
+                            {user.name}{'    '}
+                            <NavLink to={'/profile/' + user.id}>
+                                {user.photos.small != null ? <img src={user.photos.small}/> : 'photo_here' }
+                            </NavLink>
+
+                            <button onClick={(userId) => props.changeFollowStatus(user.id)}>
                                 {user.followStatus ? 'Unfollow' : 'Follow'}
                             </button>
                         </div>
                     </div>
                 ))}
             </div>
-        )
-    }
+
+        </div>
+    )
 }
 
 export default Users
 
-
-// let Users = (props) => {
-//     // let {users, changeFollowStatus, setUsers} = props
-//     return (
-//         <div>
-//             {props.users.map((user) => (
-//                     <div key={user.id}>
-//                         {user.lastName + ' ' + user.firstName + ' ' + user.location.country + ' ' + user.location.city}
-//                         <div>
-//                             <button onClick={(userId) => props.changeFollowStatus(user.id)}>
-//                                 {user.followStatus ? 'Unfollow' : 'Follow'}
-//                             </button>
-//                         </div>
-//                     </div>
-//
-//                 )
-//             )}
-//         </div>
-//     )
-// }
-
-// export default Users

@@ -1,34 +1,15 @@
 const CHANGE_FOLLOW_STATUS = 'CHANGE_FOLLOW_STATUS'
 const SET_USERS = 'SET_USERS'
-
-// let initState = {
-//     users: [
-//         {
-//             id: 1,
-//             followStatus: false,
-//             firstName: 'firstName1',
-//             lastName: 'lastName1',
-//             location: {city: 'city1', country: 'country1'}
-//         },
-//         {
-//             id: 2,
-//             followStatus: true,
-//             firstName: 'firstName2',
-//             lastName: 'lastName2',
-//             location: {city: 'city2', country: 'country2'}
-//         },
-//         {
-//             id: 3,
-//             followStatus: false,
-//             firstName: 'firstName3',
-//             lastName: 'lastName3',
-//             location: {city: 'city3', country: 'country3'}
-//         }
-//     ]
-// }
+const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE'
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 let initState = {
-    users: []
+    users: [],
+    totalUsersCount: 0,
+    pageSize: 10,
+    selectedPage: 1,
+    isFetching: true,
 }
 
 const UsersReducer = (state = initState, action) => {
@@ -36,7 +17,7 @@ const UsersReducer = (state = initState, action) => {
         case CHANGE_FOLLOW_STATUS:
             return {
                 ...state,
-                users: state.users.map( user => {
+                users: state.users.map(user => {
                     if (user.id === action.userId) {
                         return {...user, followStatus: !user.followStatus}
                     }
@@ -46,7 +27,22 @@ const UsersReducer = (state = initState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                users: [...action.users]
+            }
+        case SET_SELECTED_PAGE:
+            return {
+                ...state,
+                selectedPage: action.selectedPage
+            }
+        case SET_TOTAL_USERS_COUNT:
+            return {
+                ...state,
+                totalUsersCount: action.totalUsersCount
+            }
+        case TOGGLE_IS_FETCHING:
+            return {
+                ...state,
+                isFetching: action.flag
             }
         default:
             return state
@@ -58,5 +54,10 @@ export const changeFollowStatus = (userId) => ({type: CHANGE_FOLLOW_STATUS, user
 
 export const setUsers = (users) => ({type: SET_USERS, users})
 
+export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
+
+export const setSelectedPage = (selectedPage) => ({type: SET_SELECTED_PAGE, selectedPage})
+
+export const toggleIsFetching = (flag) => ({type: TOGGLE_IS_FETCHING, flag})
 
 export default UsersReducer

@@ -1,11 +1,12 @@
 import s from './profile.module.css'
 import Post from '../Post/Post'
 import React from 'react'
+import Loading from "../../common/Loader";
 
-function ProfileInfo() {
+function ProfileInfo(props) {
     return (
         <div className={s.profileInfo}>
-            ProfileInfo
+            {props.profile != null ? <img src={props.profile.photos.large}/> : <Loading/>}
         </div>
     )
 }
@@ -44,7 +45,7 @@ function NewPost(props) {
 function Profile(props) {
     return (
         <div className={s.profile}>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <NewPost newPostText={props.newPostText}
                      onNewPostTextChange={props.onNewPostTextChange}
                      AddNewPost={props.AddNewPost}/>
