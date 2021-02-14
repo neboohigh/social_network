@@ -1,6 +1,6 @@
 import s from './loader.css';
 
-let Loading = () => {
+let Loader = () => {
     return (
         <div className={s.ldsEllipsis}>
             <div></div>
@@ -10,4 +10,4 @@ let Loading = () => {
         </div>
     )
 }
-export default Loading
+export default Loader

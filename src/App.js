@@ -1,13 +1,13 @@
 import './App.css';
-import Header from './Header/Header'
 import Navbar from './Navbar/Navbar'
 import Content from './Content/Content'
+import HeaderContainer from "./Header/HeaderContainer";
 
 
 function App(props) {
   return (
       <div className="App">
-        <Header/>
+        <HeaderContainer/>
         <Navbar/>
         <Content/>
       </div>

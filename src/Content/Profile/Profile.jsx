@@ -1,12 +1,12 @@
 import s from './profile.module.css'
 import Post from '../Post/Post'
 import React from 'react'
-import Loading from "../../common/Loader";
+import Loader from "../../common/Loader";
 
 function ProfileInfo(props) {
     return (
         <div className={s.profileInfo}>
-            {props.profile != null ? <img src={props.profile.photos.large}/> : <Loading/>}
+            {props.profile ? <img src={props.profile.photos.large}/> : <Loader/>}
         </div>
     )
 }

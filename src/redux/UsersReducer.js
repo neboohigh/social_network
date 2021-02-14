@@ -19,7 +19,7 @@ const UsersReducer = (state = initState, action) => {
                 ...state,
                 users: state.users.map(user => {
                     if (user.id === action.userId) {
-                        return {...user, followStatus: !user.followStatus}
+                        return {...user, followed: !user.followed}
                     }
                     return user
                 })
