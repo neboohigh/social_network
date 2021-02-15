@@ -3,7 +3,6 @@ import {NavLink} from "react-router-dom";
 
 
 function Header(props) {
-    // debugger
     return (
         <div className={s.header}>
             <div className={s.loginBlock}>

@@ -1,8 +1,12 @@
+import {userAPI} from "../api/api";
+
 const CHANGE_FOLLOW_STATUS = 'CHANGE_FOLLOW_STATUS'
 const SET_USERS = 'SET_USERS'
 const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS'
+
 
 let initState = {
     users: [],
@@ -10,6 +14,7 @@ let initState = {
     pageSize: 10,
     selectedPage: 1,
     isFetching: true,
+    FollowingProgress: [] // subscribing to some user now
 }
 
 const UsersReducer = (state = initState, action) => {
@@ -44,6 +49,13 @@ const UsersReducer = (state = initState, action) => {
                 ...state,
                 isFetching: action.flag
             }
+        case TOGGLE_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                FollowingProgress: action.isFetching
+                    ? [...state.FollowingProgress, action.userId]
+                    : state.FollowingProgress.filter(id => id !== action.userId)
+            }
         default:
             return state
     }
@@ -59,5 +71,39 @@ export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_C
 export const setSelectedPage = (selectedPage) => ({type: SET_SELECTED_PAGE, selectedPage})
 
 export const toggleIsFetching = (flag) => ({type: TOGGLE_IS_FETCHING, flag})
+
+export const toggleFollowingProgress = (userId, isFetching) => ({type: TOGGLE_FOLLOWING_PROGRESS, userId, isFetching})
+
+
+
+// thunk creator return thunk
+export const getUsers = (selectedPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true))
+        userAPI.getUsers(selectedPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+    }
+}
+
+// follow/unfollow button
+export const toggleFollowStatus = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleFollowingProgress(userId, true))
+        let promise
+        !user.followed
+            ? promise = userAPI.follow(userId)
+            : promise = userAPI.unfollow(userId)
+        promise.then(data => {
+            if (data.resultCode === 0) {
+                dispatch(changeFollowStatus(userId))
+            }
+            dispatch(toggleFollowingProgress(userId, false))
+        })
+    }
+}
 
 export default UsersReducer
