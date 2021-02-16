@@ -1,9 +1,14 @@
-import {UpdateNewPostTextActionCreator, AddPostActionCreator, setUserProfile} from "../../redux/ProfileReducer";
+import {
+    UpdateNewPostTextActionCreator,
+    AddPostActionCreator,
+    setUserProfile,
+    getProfile
+} from "../../redux/ProfileReducer";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import React from 'react'
-import axios from "axios";
 import {withRouter} from "react-router-dom";
+import {AuthRedirect} from "../../HOC/authredirect";
 
 
 class ProfileContainer extends React.Component {
@@ -12,10 +17,7 @@ class ProfileContainer extends React.Component {
         if (!userId) {
             userId = 2
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(response => {
-                this.props.setUserProfile(response.data)
-            })
+        this.props.getProfile(userId)
     }
 
     render() {
@@ -44,11 +46,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         setUserProfile: (profile) => {
             dispatch(setUserProfile(profile))
+        },
+        getProfile: (userId) => {
+            dispatch(getProfile(userId))
         }
     }
 }
 
 let WithURLDataContainer = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithURLDataContainer)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRedirect(WithURLDataContainer))
 

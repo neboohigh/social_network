@@ -8,6 +8,7 @@ import {
 } from '../../redux/UsersReducer';
 import Users from './Users';
 import React from 'react';
+import {AuthRedirect} from "../../HOC/authredirect";
 
 
 class UsersContainer extends React.Component {
@@ -26,9 +27,9 @@ class UsersContainer extends React.Component {
                       pageSize={this.props.pageSize}
                       selectedPage={this.props.selectedPage}
                       users={this.props.users}
-                      // changeFollowStatus={this.props.changeFollowStatus}
+            // changeFollowStatus={this.props.changeFollowStatus}
                       isFetching={this.props.isFetching}
-                      // toggleFollowingProgress={this.props.toggleFollowingProgress}
+            // toggleFollowingProgress={this.props.toggleFollowingProgress}
                       FollowingProgress={this.props.FollowingProgress}
                       toggleFollowStatus={this.props.toggleFollowStatus}
 
@@ -58,5 +59,4 @@ export default connect(mapStateToProps, {
 
     getUsers,
     toggleFollowStatus
-
-})(UsersContainer)
+})(AuthRedirect(UsersContainer))

@@ -5,6 +5,7 @@ import News from './News/News'
 import ProfileContainer from './Profile/ProfileContainer'
 import DialogsContainer from "./Dialogs/DialogsContainer";
 import UsersContainer from "./Users/UsersContainer";
+import Login from "../Login/Login";
 
 function Content(props) {
     return (
@@ -17,6 +18,8 @@ function Content(props) {
                        render={() => <ProfileContainer/>}/>
                 <Route path='/findusers'
                        render={() => <UsersContainer/>}/>
+                <Route path='/login'
+                       render={() => <Login/>}/>
             </Switch>
         </div>
     );

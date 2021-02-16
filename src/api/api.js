@@ -26,5 +26,8 @@ export const userAPI = {
     checkAuth() {
         return instance.get('auth/me')
             .then(response => response.data)
+    },
+    getProfile(userId) {
+        return instance.get(`profile/${userId}`)
     }
 }
