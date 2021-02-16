@@ -90,11 +90,11 @@ export const getUsers = (selectedPage, pageSize) => {
 }
 
 // follow/unfollow button
-export const toggleFollowStatus = (userId) => {
+export const toggleFollowStatus = (userId, isFollow) => {
     return (dispatch) => {
         dispatch(toggleFollowingProgress(userId, true))
         let promise
-        !user.followed
+        isFollow
             ? promise = userAPI.follow(userId)
             : promise = userAPI.unfollow(userId)
         promise.then(data => {

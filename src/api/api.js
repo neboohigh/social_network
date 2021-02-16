@@ -23,8 +23,8 @@ export const userAPI = {
         return instance.delete(`follow/${userId}`)
             .then(response => response.data)
     },
-    login() {
-        instance.get('auth/me')
+    checkAuth() {
+        return instance.get('auth/me')
             .then(response => response.data)
     }
 }
