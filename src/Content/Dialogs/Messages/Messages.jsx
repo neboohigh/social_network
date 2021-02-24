@@ -1,25 +1,28 @@
 import s from './messages.module.css'
 import React from 'react'
+import {Field, reduxForm} from "redux-form";
 
 
-function NewMessage(props) {
+let NewMessage = (props) => {
 
-    let UpdateNewMessageText = (e) => {
-        let text = e.target.value
-        props.updateNewMessageText(text)
-    }
-
-    let sendMessage = () => {
-        props.sendMessage()
-    }
+    // let UpdateNewMessageText = (e) => {
+    //     let text = e.target.value
+    //     props.updateNewMessageText(text)
+    // }
+    //
+    // let sendMessage = () => {
+    //     props.sendMessage()
+    // }
     return (
-        <div>
-            <textarea value={props.newMessageText}
-                      onChange={UpdateNewMessageText}/>
-            <button onClick={sendMessage}>Send</button>
-        </div>
+        <form onSubmit={props.handleSubmit}>
+            <Field component={'textarea'}
+                   name={'newMessageText'}/>
+            <button>Send</button>
+        </form>
     )
 }
+NewMessage = reduxForm({form:'newMessage'})(NewMessage)
+
 
 function Message(props) {
     return (
@@ -30,12 +33,16 @@ function Message(props) {
 }
 
 function Messages(props) {
+
+    const onSubmit = (formData) => {
+        props.sendMessage(formData.newMessageText)
+    }
+
     return (
         <div className={s.messages}>
             {props.messages.map((el) => <Message message={el.message}/>)}
-            <NewMessage sendMessage={props.sendMessage}
-                        updateNewMessageText={props.updateNewMessageText}
-                        newMessageText={props.newMessageText}/>
+
+            <NewMessage onSubmit={onSubmit}/>
         </div>
     )
 }

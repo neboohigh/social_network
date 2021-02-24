@@ -10,8 +10,6 @@ function Dialogs(props) {
         <div className={s.dialogs}>
             <DialogsList dialogs={props.dialogs}/>
             <Messages sendMessage={props.sendMessage}
-                      updateNewMessageText={props.updateNewMessageText}
-                      newMessageText={props.newMessageText}
                       messages={props.messages}/>
         </div>
     )

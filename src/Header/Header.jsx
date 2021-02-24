@@ -6,8 +6,8 @@ function Header(props) {
     return (
         <div className={s.header}>
             <div className={s.loginBlock}>
-                {props.isAuth ? 'auth' :
-                    <NavLink to={'./login'}>login</NavLink>}
+                {props.isAuth ? <button onClick={props.logout}>{'logout'}</button> :
+                    <NavLink to={'/login'}>login</NavLink>}
             </div>
         </div>
     );

@@ -1,23 +1,24 @@
 import {
-    UpdateNewPostTextActionCreator,
-    AddPostActionCreator,
-    setUserProfile,
-    getProfile
+    AddPost,
+    getProfile, getStatusMessage, updateStatusMessage
 } from "../../redux/ProfileReducer";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import React from 'react'
-import {withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import {AuthRedirect} from "../../HOC/authredirect";
+import {compose} from "redux";
 
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = 2
+            userId = this.props.authUserId
+            // return <Redirect to={'/login'}/>
         }
         this.props.getProfile(userId)
+        this.props.getStatusMessage(userId)
     }
 
     render() {
@@ -31,30 +32,30 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText,
-        profile: state.profilePage.profile
+        // newPostText: state.profilePage.newPostText,
+        profile: state.profilePage.profile,
+        authUserId: state.auth.id,
+        isAuth: state.auth.isAuth
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onNewPostTextChange: (text) => {
-            dispatch(UpdateNewPostTextActionCreator(text))
-        },
-        AddNewPost: () => {
-            dispatch(AddPostActionCreator())
-        },
-        setUserProfile: (profile) => {
-            dispatch(setUserProfile(profile))
+        AddPost: (newPostText) => {
+            dispatch(AddPost(newPostText))
         },
         getProfile: (userId) => {
             dispatch(getProfile(userId))
-        }
+        },
+        getStatusMessage,
+        updateStatusMessage
     }
 }
 
-let WithURLDataContainer = withRouter(ProfileContainer)
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(ProfileContainer)
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthRedirect(WithURLDataContainer))
 
