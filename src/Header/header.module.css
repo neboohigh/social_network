@@ -1,9 +1,11 @@
-.header {
-    grid-area: h;
-    background-color: greenyellow;
-}
-
-
 .loginBlock {
     float: right;
+}
+
+.header {
+    display: grid;
+    background-color: rgb(160, 55, 252);
+    height: 70px;
+    grid-template-columns: repeat(5, 1fr);
+    /* padding: 0 20% 0 20%; */
 }

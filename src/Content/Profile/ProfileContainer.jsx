@@ -1,29 +1,37 @@
 import {
     AddPost,
-    getProfile, getStatusMessage, updateStatusMessage
+    getProfile, updateStatusMessage, getStatusMessage
 } from "../../redux/ProfileReducer";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import React from 'react'
 import {Redirect, withRouter} from "react-router-dom";
-import {AuthRedirect} from "../../HOC/authredirect";
 import {compose} from "redux";
+import Loader from "../../common/Loader";
 
 
 class ProfileContainer extends React.Component {
+
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = this.props.authUserId
-            // return <Redirect to={'/login'}/>
         }
-        this.props.getProfile(userId)
-        this.props.getStatusMessage(userId)
+        if(userId) {
+            this.props.getProfile(userId)
+            this.props.getStatusMessage(userId)
+        }
     }
 
     render() {
+        if (!this.props.isAuth && this.props.match.params.userId === undefined) {
+            return <Redirect to={'/login'}/>
+        }
+        if (!this.props.profile) return <Loader/>
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     statusMessage={this.props.statusMessage}/>
         )
     }
 }
@@ -32,29 +40,22 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         posts: state.profilePage.posts,
-        // newPostText: state.profilePage.newPostText,
         profile: state.profilePage.profile,
         authUserId: state.auth.id,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        statusMessage: state.profilePage.statusMessage
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        AddPost: (newPostText) => {
-            dispatch(AddPost(newPostText))
-        },
-        getProfile: (userId) => {
-            dispatch(getProfile(userId))
-        },
-        getStatusMessage,
-        updateStatusMessage
-    }
-}
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, {
+        AddPost,
+        getProfile,
+        getStatusMessage,
+        updateStatusMessage
+    })
 )(ProfileContainer)
 
 

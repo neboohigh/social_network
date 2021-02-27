@@ -5,7 +5,6 @@ import {checkAuth, logout} from "../redux/AuthReducer";
 
 class HeaderContainer extends React.Component {
 
-
     render() {
         return <Header {...this.props}/>
     }

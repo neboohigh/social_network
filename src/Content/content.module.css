@@ -1,4 +1,11 @@
 .content {
     grid-area: c;
-    background-color: aquamarine;
+    /*background-color: aquamarine;*/
+
+
+    /*display: grid;*/
+    /*grid-template-columns: max-content 1fr;*/
+    /*grid-template-areas: "n c";*/
+    /*height: 100vh;*/
+    /*padding: 0 20% 0 20%;*/
 }

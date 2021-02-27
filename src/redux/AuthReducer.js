@@ -28,7 +28,7 @@ export const setAuthData = (id, email, login, isAuth) => ({type: SET_AUTH_DATA, 
 
 export const checkAuth = () => {
     return (dispatch) => {
-        authAPI.checkAuth()
+        return authAPI.checkAuth()
             .then(data => {
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
@@ -40,12 +40,11 @@ export const checkAuth = () => {
 
 export const login = (email, password, rememberMe) => {
     return (dispatch) => {
-        authAPI.login(email, password, rememberMe)
+        return authAPI.login(email, password, rememberMe)
             .then(data => {
                 if (data.data.resultCode === 0) {
                     dispatch(checkAuth())
                 } else {
-                    debugger
                     let message = data.data.message.length > 0 ? data.data.message[0] : 'some else error'
                     dispatch(stopSubmit('login', {_error: message}))
                 }

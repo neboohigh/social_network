@@ -33,8 +33,8 @@ export const profileAPI = {
     getStatusMessage(userId) {
         return instance.get(`profile/status/${userId}`)
     },
-    updateStatusMessage(statusMessage) {
-        return instance.put(`profile/status`, {statusMessage})
+    updateStatusMessage(status) {
+        return instance.put(`profile/status`, {status})
     }
 }
 

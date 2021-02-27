@@ -1,4 +1,4 @@
-import {profileAPI, userAPI} from "../api/api";
+import {profileAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
@@ -11,6 +11,7 @@ let initState = {
         {id: 3, text: 'text3'},
     ],
     profile: null,
+    statusMessage: ''
 }
 
 const ProfileReducer = (state = initState, action) => {
@@ -22,7 +23,8 @@ const ProfileReducer = (state = initState, action) => {
             }
         case SET_USER_PROFILE:
             return {
-                ...state, profile: action.profile
+                ...state,
+                profile: action.profile
             }
         case SET_STATUS_MESSAGE:
             return {
@@ -34,15 +36,12 @@ const ProfileReducer = (state = initState, action) => {
     }
 }
 
-
-
 export const AddPost = (newPostText) => {
     return {
         type: ADD_POST,
         newPostText: newPostText
     }
 }
-
 
 export const setUserProfile = (profile) => {
     return {
@@ -83,7 +82,7 @@ export const updateStatusMessage = (statusMessage) => {
         profileAPI.updateStatusMessage(statusMessage)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(setStatusMessage(response.data))
+                    dispatch(setStatusMessage(statusMessage))
                 }
             })
     }

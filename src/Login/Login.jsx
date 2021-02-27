@@ -4,6 +4,7 @@ import {requiredField} from "../validators/validators";
 import {login, logout} from "../redux/AuthReducer";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import s from './login.module.css'
 
 const LoginForm = (props) => {
     return (
@@ -20,7 +21,7 @@ const LoginForm = (props) => {
                 <Field type={'checkbox'} component={Input} name={'rememberMe'}
                        validate={[requiredField]}/>
             </div>
-                {props.error && <div>{props.error}</div> }
+            {props.error && <div>{props.error}</div>}
             <div>
                 <button>Login</button>
             </div>
@@ -33,16 +34,16 @@ const LoginReduxForm = reduxForm({
 })(LoginForm)
 
 
-const Login = (props) => {
+let Login = (props) => {
     const onSubmit = (formData) => {
         props.login(formData.email, formData.password, formData.rememberMe)
     }
 
-    if(props.isAuth) {
+    if (props.isAuth) {
         return <Redirect to={`/profile/${props.id}`}/>
     }
     return (
-        <div>
+        <div className={s.loginPage}>
             <h1>LOGIN</h1>
             <LoginReduxForm onSubmit={onSubmit}/>
         </div>
@@ -55,4 +56,5 @@ const mapStateToProps = (state) => ({
     id: state.auth.id
 })
 
-export default connect(mapStateToProps, {login, logout})(Login)
+Login = connect(mapStateToProps, {login, logout})(Login)
+export default Login

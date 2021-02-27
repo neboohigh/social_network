@@ -1,7 +1,6 @@
 .navbar {
     grid-area: n;
-    background-color: grey;
-    height: 200px;
+    max-width: max-content;
 }
 
 
@@ -11,4 +10,7 @@
 .navItem a {
     color: black;
     text-decoration: none;
+}
+.navItem a:hover {
+    color: white;
 }

@@ -85,6 +85,8 @@ export const getUsers = (selectedPage, pageSize) => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
                 dispatch(setTotalUsersCount(data.totalCount))
+
+                dispatch(setSelectedPage(selectedPage))
             })
     }
 }
@@ -94,7 +96,7 @@ export const toggleFollowStatus = (userId, isFollow) => {
     return (dispatch) => {
         dispatch(toggleFollowingProgress(userId, true))
         let promise
-        isFollow
+        !isFollow
             ? promise = userAPI.follow(userId)
             : promise = userAPI.unfollow(userId)
         promise.then(data => {
